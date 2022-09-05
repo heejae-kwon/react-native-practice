@@ -35,6 +35,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { createStackNavigator } from '@react-navigation/stack';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import 'react-native-gesture-handler';
+import { StackActions } from 'react-navigation';
+import { DataTable } from 'react-native-paper';
 
 const Section: React.FC<
   PropsWithChildren<{
@@ -191,30 +193,34 @@ function HomeTab() {
 function BrandCategorySlider() {
 
   const { width, height } = Dimensions.get('window');
-  return <ScrollView horizontal={true}>
+  return <View style={{ flexDirection: 'row' }}>
     <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
       <Button title='전체'></Button>
     </View>
-    <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
-      <Button title='전체'></Button>
-    </View>
-    <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
-      <Button title='전체'></Button>
-    </View>
-    <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
-      <Button title='전체'></Button>
-    </View>
-    <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
-      <Button title='전체'></Button>
-    </View>
-    <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
-      <Button title='전체'></Button>
-    </View>
-    <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
-      <Button title='전체'></Button>
-    </View>
-  </ScrollView>
-
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='전체'></Button>
+      </View>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='전체'></Button>
+      </View>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='전체'></Button>
+      </View>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='전체'></Button>
+      </View>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='전체'></Button>
+      </View>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='전체'></Button>
+      </View>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='전체'></Button>
+      </View>
+    </ScrollView>
+  </View>
 }
 function BrandItem() {
 
@@ -256,11 +262,41 @@ function BrandTab() {
     <BrandCategory />
   </ScrollView>
 }
+
+function HotDealBrand() {
+
+  return <View>
+    <View style={{ flexDirection: 'row' }}>
+      <Text>아이콘</Text>
+      <Text>브랜드명</Text>
+    </View>
+    <View>
+      <Text>이미지</Text>
+    </View>
+  </View>
+}
 function HotDealTab() {
 
 
   return <ScrollView>
-
+    <View style={{ flexDirection: 'row' }}>
+      <Text>아이콘</Text>
+      <Text>각 스토어의 현재 세일 정보를 모아두었습니다.</Text>
+    </View>
+    <DataTable>
+      <DataTable.Row>
+        <HotDealBrand />
+      </DataTable.Row>
+      <DataTable.Row>
+        <HotDealBrand />
+      </DataTable.Row>
+      <DataTable.Row>
+        <HotDealBrand />
+      </DataTable.Row>
+      <DataTable.Row>
+        <HotDealBrand />
+      </DataTable.Row>
+    </DataTable>
   </ScrollView>
 }
 function HomeScreenTab() {
@@ -293,11 +329,97 @@ function HomeScreenTab() {
 
 }
 
-function StoreScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>설정</Text>
+
+function StoreTabCategorySlider() {
+  const { width, height } = Dimensions.get('window');
+
+  return <View style={{ flexDirection: 'row' }}>
+    <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+      <Button title='전체'></Button>
     </View>
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='ㄱ'></Button>
+      </View>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='ㄴ'></Button>
+      </View>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='ㄷ'></Button>
+      </View>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='ㄹ'></Button>
+      </View>
+      <View style={{ width: width / 4, height: height / 8, justifyContent: 'center' }}>
+        <Button title='ㅁ'></Button>
+      </View>
+    </ScrollView>
+  </View>
+}
+function StoreInfo() {
+  const { width, height } = Dimensions.get('window');
+
+  return <View style={{ flexDirection: 'row', position: 'relative' }}>
+    <View>
+      <Text>Icon</Text>
+    </View>
+    <View>
+      <Text>스토어명</Text>
+      <Text>스토어정sdsfdfsdfs보ㅜㅜㅜsdsdssdfsdfsdfsdfsdfa</Text>
+    </View>
+    <View style={{ width: width / 4, height: height / 8, position: 'absolute', right: -50, zIndex: 1 }}>
+      <Button title='ㄱ'></Button>
+    </View>
+  </View>
+}
+function StoreInfoList() {
+
+  return <ScrollView>
+    <DataTable>
+      <DataTable.Row>
+        <StoreInfo />
+      </DataTable.Row>
+    </DataTable>
+  </ScrollView>
+}
+function StoreTab() {
+
+  const Stack = createStackNavigator()
+  return <Stack.Navigator>
+    <Stack.Screen
+      name="Home"
+      component={StoreInfoList}
+      options={{ headerTitle: (props) => <StoreTabCategorySlider /> }}
+    />
+  </Stack.Navigator>
+}
+
+function FavoriteTab() {
+  const Stack = createStackNavigator()
+  return <Stack.Navigator>
+    <Stack.Screen
+      name="Home"
+      component={StoreInfoList}
+      options={{ title: '즐겨찾는 스토어' }}
+    />
+  </Stack.Navigator>
+}
+function StoreScreen() {
+  const Tab = createMaterialTopTabNavigator()
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="store"
+        component={StoreTab}
+        options={{ title: '스토어' }}
+      />
+      <Tab.Screen
+        name="favorite"
+        component={FavoriteTab}
+        options={{ title: '즐겨찾기' }}
+      />
+
+    </Tab.Navigator>
   );
 }
 function MyPageScreen() {
