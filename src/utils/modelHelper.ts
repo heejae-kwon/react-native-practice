@@ -1,7 +1,6 @@
 import * as ort from 'onnxruntime-react-native';
-import _, { values } from 'lodash';
+import _ from 'lodash';
 import { imagenetClasses } from '../data/imagenet';
-import { Image } from 'react-native';
 import RNFS from 'react-native-fs'
 
 export async function runSqueezenetModel(preprocessedData: any): Promise<[any, number]> {
