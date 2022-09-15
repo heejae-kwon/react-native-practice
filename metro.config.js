@@ -5,13 +5,22 @@
  * @format
  */
 
+// get defaults assetExts array
+const defaultAssetExts = require("metro-config/src/defaults/defaults").assetExts;
+
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
-        inlineRequires: true,
+        inlineRequires: false,
       },
     }),
   },
+  resolver: {
+    assetExts: [
+      ...defaultAssetExts, // <- array spreading defaults
+      'ort'
+    ]
+  }
 };

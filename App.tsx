@@ -18,6 +18,7 @@ import HomeScreen from './src/home/HomeScreen';
 import StoreScreen from './src/store/StoreScreen';
 import MyPageScreen from './src/my-page/MyPageScreen';
 import SettingsScreen from './src/setting/SettingScreen';
+import ImageCanvas from './src/imageCanvas';
 
 
 
@@ -29,7 +30,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <BottomTab.Navigator>
-        <BottomTab.Screen name="home" component={HomeScreen} options={{
+        <BottomTab.Screen name="home" component={ImageCanvas} options={{
           title: '홈'
         }} />
         <BottomTab.Screen name="store" component={StoreScreen} options={{ title: '스토어' }} />
