@@ -13,7 +13,7 @@ export async function runSqueezenetModel(preprocessedData: any): Promise<[any, n
   //https://onnxruntime.ai/docs/api/js/interfaces/InferenceSession.SessionOptions.html#graphOptimizationLevel
   console.log(`ortFile: ${ortFile.path}`)
   const session = await ort.InferenceSession
-    .create('file://'+ortFile?.path);
+    .create('file://' + ortFile?.path);
 
   console.log('Inference session created')
   // Run inference and get results.

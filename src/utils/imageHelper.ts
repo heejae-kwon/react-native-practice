@@ -1,6 +1,11 @@
 //import * as Jimp from 'jimp';
 import { Tensor } from 'onnxruntime-react-native';
 import axios from 'axios'
+import RNFS from 'react-native-fs'
+import RNFetchBlob from 'rn-fetch-blob';
+import ImageResizer from 'react-native-image-resizer';
+import { encode, decode } from 'base64-arraybuffer'
+import { Image } from 'react-native';
 
 export async function getImageTensorFromPath(path: string, dims: number[] = [1, 3, 224, 224]): Promise<Tensor> {
     // 1. load the image  
@@ -9,26 +14,45 @@ export async function getImageTensorFromPath(path: string, dims: number[] = [1, 
     const imageTensor = imageDataToTensor(image, dims);
     // 3. return the tensor
     return imageTensor;
+
 }
 
 async function loadImagefromPath(path: string, width: number = 224, height: number = 224): Promise<Uint8Array> {
     // Use Jimp to load the image and resize it.
     console.log('뭔디')
     console.log('뭔디1 ' + path)
-    const imageData = await axios.get(path, {
+    /*const imageDataOrigin = await axios.get(path, {
         responseType: 'arraybuffer',
         responseEncoding: 'binary'
-    })
+    })*/
+    const imageData = await RNFetchBlob.fetch('GET', path)
+
+    let result = await ImageResizer.createResizedImage(
+        "data:image/jpeg;base64, " + imageData.base64(),
+        224,
+        224,
+        'JPEG',
+        100,
+        0,
+        RNFetchBlob.fs.dirs.PictureDir,
+        true,
+        { mode: 'stretch' }
+    );
+    const ss = await RNFetchBlob.fs.readFile(result.uri, 'base64')
+
+
+
     /*  = await Jimp.default.read(path).then((imageBuffer: Jimp) => {
          return imageBuffer.resize(width, height);
      });*/
-    //console.log("axios " + imageData.data.toString())
-    return new Uint8Array(imageData.data);
+
+    // console.log(ss)
+    return new Uint8Array(decode(ss));
 }
 
 function imageDataToTensor(image: Uint8Array, dims: number[]): Tensor {
     // 1. Get buffer data from image and create R, G, and B arrays.
-    //console.log(`image: ${image}`)
+    console.log(`image: ${image.length}`)
     const imageBufferData = image//.bitmap.data;
     const [redArray, greenArray, blueArray] = new Array(new Array<number>(), new Array<number>(), new Array<number>());
 

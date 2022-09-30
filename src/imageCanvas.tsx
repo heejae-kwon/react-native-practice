@@ -31,16 +31,15 @@ const ImageCanvas = () => {
         const random = Math.floor(Math.random() * (9 - 0 + 1) + 0);
         return sampleImageUrls[random];
     }
+    const [imageSrc, setImageSrc] = useState(getImage().value)
 
-    let imageSrc = ''
     const sampleImage = getImage();
     //   image.src = sampleImage.value;
-    imageSrc = sampleImage.value
-    console.log(imageSrc)
 
 
     // Draw image and other  UI elements then run inference
     const displayImageAndRunInference = () => {
+        setImageSrc(getImage().value)
         // Get the image
         //   image = new Image();
         // Clear out previous values.
