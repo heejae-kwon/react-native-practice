@@ -2,18 +2,16 @@ import * as ort from 'onnxruntime-react-native';
 import _ from 'lodash';
 import { imagenetClasses } from '../data/imagenet';
 import RNFS from 'react-native-fs'
+import { getAssetPath } from './assetsHelper';
 
 export async function runSqueezenetModel(preprocessedData: any): Promise<[any, number]> {
 
-  RNFS.existsAssets('model/squeezenet1.1.ort').then((result) => console.log(result));
-  await RNFS.copyFileAssets('model/squeezenet1.1.ort', RNFS.DocumentDirectoryPath + '/squeezenet1.1.ort')//.then((re) => {
-  const findResult = await RNFS.readDir(RNFS.DocumentDirectoryPath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-  const ortFile = findResult.find(value => value.name === 'squeezenet1.1.ort')!
+  const ortFile = getAssetPath('squeezenet1.1.ort')
   // Create session and set options. See the docs here for more options: 
   //https://onnxruntime.ai/docs/api/js/interfaces/InferenceSession.SessionOptions.html#graphOptimizationLevel
-  console.log(`ortFile: ${ortFile.path}`)
+  console.log(`ortFile: ${ortFile}`)
   const session = await ort.InferenceSession
-    .create('file://' + ortFile?.path);
+    .create('file://' + ortFile);
 
   console.log('Inference session created')
   // Run inference and get results.
@@ -35,14 +33,14 @@ async function runInference(session: ort.InferenceSession, preprocessedData: any
   // Convert to seconds.
   const inferenceTime = (end.getTime() - start.getTime()) / 1000;
   // Get output results with the output name from the model export.
-  const output = outputData[session.outputNames[0]];
+  //const output = outputData[session.outputNames[0]];
   //Get the softmax of the output data. The softmax transforms values to be between 0 and 1
-  const outputSoftmax = softmax(Array.prototype.slice.call(output.data));
+  //var outputSoftmax = softmax(Array.prototype.slice.call(output.data));
 
   //Get the top 5 results.
-  const results = imagenetClassesTopK(outputSoftmax, 5);
-  console.log('results: ', results);
-  return [results, inferenceTime];
+  //var results = imagenetClassesTopK(outputSoftmax, 5);
+  //console.log('results: ', results);
+  return [outputData, inferenceTime];
 }
 
 //The softmax transforms values to be between 0 and 1

@@ -1,11 +1,5 @@
 //import * as Jimp from 'jimp';
 import { Tensor } from 'onnxruntime-react-native';
-import axios from 'axios'
-import RNFS from 'react-native-fs'
-import RNFetchBlob from 'rn-fetch-blob';
-import ImageResizer from 'react-native-image-resizer';
-import { encode, decode } from 'base64-arraybuffer'
-import { Image } from 'react-native';
 
 export async function getImageTensorFromPath(path: string, dims: number[] = [1, 3, 224, 224]): Promise<Tensor> {
     // 1. load the image  
@@ -17,20 +11,29 @@ export async function getImageTensorFromPath(path: string, dims: number[] = [1, 
 
 }
 
-async function loadImagefromPath(path: string, width: number = 224, height: number = 224): Promise<Uint8Array> {
+export function getImageTensorFromImageData(image: number[], dims: number[] = [1, 3, 224, 224]): Tensor {
+    // 1. load the image  
+    // 2. convert to tensor
+    const imageTensor = imageDataToTensor(image, dims);
+    // 3. return the tensor
+    return imageTensor;
+
+}
+
+async function loadImagefromPath(path: string, width: number = 224, height: number = 224): Promise<Array<number>> {
     // Use Jimp to load the image and resize it.
-    console.log('뭔디')
-    console.log('뭔디1 ' + path)
     /*const imageDataOrigin = await axios.get(path, {
         responseType: 'arraybuffer',
         responseEncoding: 'binary'
-    })*/
+    })
+   /* console.log('뭔디')
     const imageData = await RNFetchBlob.fetch('GET', path)
+    console.log('뭔디1 ' + path)
 
     let result = await ImageResizer.createResizedImage(
         "data:image/jpeg;base64, " + imageData.base64(),
-        224,
-        224,
+        width,
+        height,
         'JPEG',
         100,
         0,
@@ -39,18 +42,19 @@ async function loadImagefromPath(path: string, width: number = 224, height: numb
         { mode: 'stretch' }
     );
     const ss = await RNFetchBlob.fs.readFile(result.uri, 'base64')
+    console.log("uri: " + result.uri)
 
 
 
-    /*  = await Jimp.default.read(path).then((imageBuffer: Jimp) => {
+      = await Jimp.default.read(path).then((imageBuffer: Jimp) => {
          return imageBuffer.resize(width, height);
-     });*/
+     });
 
-    // console.log(ss)
-    return new Uint8Array(decode(ss));
+    // console.log(ss)*/
+    return Array.from(new Uint8ClampedArray());
 }
 
-function imageDataToTensor(image: Uint8Array, dims: number[]): Tensor {
+function imageDataToTensor(image: number[], dims: number[]): Tensor {
     // 1. Get buffer data from image and create R, G, and B arrays.
     console.log(`image: ${image.length}`)
     const imageBufferData = image//.bitmap.data;
@@ -76,5 +80,6 @@ function imageDataToTensor(image: Uint8Array, dims: number[]): Tensor {
     }
     // 5. create the tensor object from onnxruntime-web.
     const inputTensor = new Tensor("float32", float32Data, dims);
+    //console.log(inputTensor)
     return inputTensor;
 }
